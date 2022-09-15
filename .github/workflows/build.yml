@@ -1,0 +1,26 @@
+name: Build
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+      
+      - name: LaTeX
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: main.tex
+          latexmk_use_xelatex: true
+          extra_fonts: |
+            ./fonts/*.otf
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: |
+            *.pdf
+            *.log
